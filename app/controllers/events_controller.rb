@@ -76,7 +76,7 @@ def update
       redirect_to event_path
     end
   end
-end
+
 end
 
 
