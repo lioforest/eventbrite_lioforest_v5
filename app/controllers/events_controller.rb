@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+
+  before_action :is_organizer, only: [:update, :destroy, :edit]
   def index
   	@event = Event.all
   end
@@ -53,4 +55,28 @@ class EventsController < ApplicationController
     
   end
 
+  def edit
+    @event = Event.find(params[:id])
+  end
+def update
+    @event = Event.find(params[:id])
+    event_params = params.require(:event).permit(:start_date, :duration, :title,:description, :price , :location)
+    if @event.update(event_params)
+      redirect_to event_path(params[:id])
+    else
+      render :edit
+    end
+  end
+
+
+  def is_organizer
+    @event = Event.find(params[:id])
+    if current_user != @event.admin_id
+      flash[:error] = "You shall not pass!!!"
+      redirect_to event_path
+    end
+  end
 end
+end
+
+

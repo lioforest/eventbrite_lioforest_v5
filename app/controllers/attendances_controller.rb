@@ -2,7 +2,8 @@
 
 
 		def index
-  			@attendance = Attendance.all
+		  	@event = Event.find(params[:id])
+			@attendances = @event.attendances
   		end
 
 		def new

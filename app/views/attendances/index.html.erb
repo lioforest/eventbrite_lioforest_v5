@@ -1,6 +1,15 @@
 <section class="jumbotron text-center" style="margin-bottom: 0px !important;">
 	<div class="container">
 		<h1 class="jumbotron-heading">Event administration page :</h1>
+		<h1 class="jumbotron-heading"><%=@event.title%></h1>
+
+		<br>
+
+		<%= link_to "Edit this event", edit_event_path(id: @event.id), class:"btn btn-primary" %>
+		<%= link_to "Delete this event", edit_event_path(id: @event.id), class:"btn btn-primary" %>
+
+		<br>
+		<br>
 		<p class="lead text-muted">Here the list of the participant who allready paid for your event.</p>
 	</div>
 </section>
@@ -9,20 +18,17 @@
         <div class="container">
           <div class="row">
 
-          	<% @attendance.each do |event| %>
+          	<% @event.users.each do |user| %>
 
 	 			<div class="col-md-4">
 	              <div class="card mb-4 box-shadow">
-	                <img class="card-img-top" src="/event.png" alt="Card image cap">
 	                <div class="card-body">
-	                <h5 class="card-title">Event : </h5>
-	                  <p class="card-text">Description : </p>
+	                <h5 class="card-title">Participant : <%=user.first_name%> <%=user.last_name%> </h5>
+	                  <p class="card-text">E-mail: <%=user.email%> <br> paid on <%=@event.attendances.select{|a| a.user==user}[0].created_at%> </p>
 	                  <div class="d-flex justify-content-between align-items-center">
 	                    <div class="btn-group">
-	                      <button type="button" class="btn btn-sm btn-outline-secondary"> <a href="<%=event_path(event.id)%>">View</a></button>
-	                      <button type="button" class="btn btn-sm btn-outline-secondary"> <a href="<%=edit_event_path(event.id)%>">Edit</a></button>
+	                      <button type="button" class="btn btn-sm btn-outline-secondary"> <a href="<%=edit_event_path(id: @event.id)%>">View</a></button>
 	                    </div>
-	                    <small class="text-muted">Duration : </small>
 	                  </div>
 	                </div>
 	              </div>

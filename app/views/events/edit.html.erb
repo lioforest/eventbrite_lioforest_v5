@@ -1,0 +1,41 @@
+<!-- Content section -->
+  <section class="py-5">
+	    <div class="container">
+	      <h1>Edit the event n°: <%= @event.id %> </h1>
+		<br><br>
+		<%= form_for @event do |f| %>
+		       <div class ="form_group">
+			        <label> Event Title </label>
+			        <%= f.text_field :title, class: 'form-control' %>
+		       </div>
+		       <div class ="form_group">
+			        <label> Event Description :  </label>
+			        <%= f.text_area :description, class: 'form-control' %>
+		        </div>
+		       <div class ="form_group">
+			        <label> Event Start Date :  </label>
+			        <%= f.text_area :start_date, class: 'form-control' %>
+		        </div>
+		       <div class ="form_group">
+			        <label> Event Duration :  </label>
+			        <%= f.text_area :duration, class: 'form-control' %>
+		        </div>
+		       <div class ="form_group">
+			        <label> Event Price :  </label>
+			        <%= f.text_area :price, class: 'form-control' %>
+		        </div>
+		       <div class ="form_group">
+			        <label> Event Location :  </label>
+			        <%= f.text_area :location, class: 'form-control' %>
+		        </div>
+
+
+
+		        <br><br>
+		       <div class ="form_group">
+			        <button type="submit" class="btn btn-primary">Valider</button>
+		        </div>
+		<% end%>
+	</div>
+ </section>
+
