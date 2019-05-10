@@ -1,0 +1,130 @@
+<br/>
+<div class="container d-flex flex-column align-items-center">
+
+
+	<h2>Event : <%=@event.title%></h2>
+
+	<img src="/event.png" style="width: 50%; height: auto;">
+	<br/>
+
+	<% if Attendance.find_by(user_id: 'current_user.id', event_id: '@event.id')%>
+			<div><a class="btn btn-primary btn-lg" href="<%=destroy_attendance_path(@event.id)%>" method="delete">Remove participation</a></div>
+		<%else%>
+    		<% if !user_signed_in? %>
+				<p>Connectez-vous pour pouvoir vous inscrire !</p>
+				<br/>
+			  <% else %>
+			  <!-- BOuton pour enregistrer la participation sans payement -->
+			    <% if 1==2 %>
+ 					<p class="text-center"> <%= link_to "Rejoindre l'événement", { :controller => "events", :action => "subscribe"}, class: "btn btn-primary btn-lg" %> </p>
+ 				<% end %> 
+			  <!-- Code pour afficher bouton stripe  -->
+ 			<% if @event.admin == current_user  %>
+
+				<span>Vous êtes l'administrateur de cet événement !</span>
+ 					<p class="text-center"> <%= link_to "Gérer cet événement", { :controller => "events", :action => "subscribe"}, class: "btn btn-primary btn-lg" %> </p>
+				<br/>
+
+				<% elsif @event.users.include?(current_user) %>
+					
+				<span>Vous participez à cet événement !</span>
+				<br/>
+
+				<% else %>
+	 			  <div style="max-width: 60%; text-align: center;>
+					<%= form_tag events_subscribe_path do %>
+					  <article>
+					    <% if flash[:error].present? %>
+					      <div id="error_explanation">
+					        <p><%= flash[:error] %></p>
+					      </div>
+					    <% end %>
+					    <label class="amount">
+					      <span>Pour vous inscrire, merci de passer par la case, payement :<%=@event.price.to_f/100 %> €</span>
+					    </label>
+					  </article>
+
+	 
+					  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+					          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+					          data-description="Inscription à l'événement #{@event.title}"
+					          data-amount=<%="#{@event.price}"%>
+					          data-currency="eur"
+					          data-locale="auto"></script>
+				  <!-- Fin Code stripe -->
+
+					<% end %>
+
+				  </div>
+				<% end %>
+				<br>
+			</div>
+ 			<% end %>
+
+			<div style="max-width: 60%; font-size: 20px; text-align: center;">
+				<%=@event.description%>
+			</div>
+
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-2 border_box">
+					<p class="title_cat">Start Date</p>
+					<span><%=@date_debut%><br>at <%=@date_debut_time%></span>
+				</div>
+
+				<div class="col-md-2 border_box">
+					<p class="title_cat">End Date</p>
+					<span><%=@date_fin%><br>at <%=@date_fin_time%></span>
+				</div>
+
+				<div class="col-md-1 border_box">
+					<p class="title_cat">Particpants</p>
+					<span><%=@nb_visitors%>  </span>
+				</div>
+
+				<div class="col-md-1 border_box">
+					<p class="title_cat">Duration</p>
+					<span><%=@event.duration%> minutes</span>
+				</div>
+
+				<div class="col-md-1 border_box">
+					<p class="title_cat">Price</p>
+					<span><%="#{@event.price}"%> €</span>
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-2 border_box">
+					<p class="title_cat">Location</p>
+					<span><%=@event.location%></span>
+				</div>
+
+				<div class="col-md-2 border_box">
+					<p class="title_cat">Organizer</p>
+					<span><%=@event.admin.first_name%> <%=@event.admin.last_name%></span>
+				</div>
+			</div>
+				<br>
+				<br>
+
+			<div class="row d-flex justify-content-center">
+				<p>created at : <%=@event.created_at%></p>
+			</div>
+
+    <% end %>
+
+</div>
+
+
+<style>
+	.border_box{
+		border-style: solid;
+		border-width: 2px;
+		border-radius: 10px;
+		margin: 10px;
+		text-align: center;
+	}
+
+	.title_cat{
+		color: red;
+	}
+</style>
+

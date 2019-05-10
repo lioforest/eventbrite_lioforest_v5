@@ -1,0 +1,47 @@
+<section class="jumbotron text-center" style="margin-bottom: 0px !important;">
+	<div class="container">
+		<h1 class="jumbotron-heading">User : <%=@user.first_name%> <%=@user.last_name%></h1>
+		<p class="lead text-muted">You will find bellow all information about this user:</p>
+	</div>
+</section>
+
+<br/>
+
+<div class="container">
+
+
+	<h3>Information :</h3><br/>
+
+	<div class="row d-flex flex-column ">
+		<p><strong>First name : </strong><%=@user.first_name%></p>
+		<p><strong>Last name : </strong><%=@user.last_name%></p>
+		<p><strong>Email address : </strong><%=@user.email%></p>
+		<p><strong>Description : </strong><%=@user.description%></p>
+		<br/>
+		<button type="button" class="btn btn-primary text-center" style="width: 30%; margin: auto;"><a href="<%=edit_user_registration_path(@user.id)%>" style="color: white;">Modify my loggin information</a></button>
+	</div>
+
+	<br/>
+
+	<h3>Events created</h3><br/>
+
+	<div class="row">
+
+	<%@user.events.each do |event| %>
+		<div class="col-md-3">
+			<div class="card mb-4 box-shadow">
+				<img class="card-img-top" src="/event.png" alt="Card image cap">
+				<div class="card-body">
+					<h5 class="card-title" style="font-size: small;">Event :<br/> <%=event.title%></h5>
+					<button type="button" class="btn btn-sm btn-outline-secondary" style="font-size: small;"> <a href="<%=event_path(event.id)%>">Know more</a></button>
+					<div class="d-flex justify-content-between align-items-center">
+						<small class="text-muted">Duration : <%=event.duration%></small>
+					</div>
+				</div>
+			</div>
+		</div>	
+	<% end %>
+
+	</div>
+
+</div>
